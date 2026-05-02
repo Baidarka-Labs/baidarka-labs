@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0E1733"/>
+
+  <!-- Open Fleet mark — 380×380, right column, centered at (920,315) -->
+  <svg x="730" y="125" width="380" height="380" viewBox="0 0 200 200">
+    <defs>
+      <path id="h" d="M959 75H924l-10-7c-250-68-650-68-864-18v25h-45a5 3 0 0 0 0 6H50v25c214 50 614 50 864-18l10-7H959a5 3 0 0 0 0-6"/>
+    </defs>
+    <use href="#h" fill="#F4F1EB" transform="translate(109.32 137.32) rotate(-11) scale(.11321) translate(-482 -78)"/>
+    <use href="#h" fill="#F4F1EB" transform="translate(100 100) rotate(-23) scale(.14465) translate(-482 -78)"/>
+    <use href="#h" fill="#F4F1EB" transform="translate(67.25 79.14) rotate(-6) scale(.10901) translate(-482 -78)"/>
+  </svg>
+
+  <!-- Wordmark -->
+  <text x="88" y="232"
+        font-family="Georgia, serif"
+        font-size="60"
+        font-weight="400"
+        letter-spacing="-1"
+        fill="#F4F1EB">Baidarka Labs</text>
+
+  <!-- Tagline -->
+  <text x="88" y="284"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="19"
+        fill="#F4F1EB"
+        opacity="0.6">A forthcoming initiative to assess</text>
+  <text x="88" y="310"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="19"
+        fill="#F4F1EB"
+        opacity="0.6">the quality of data products</text>
+  <text x="88" y="336"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="19"
+        fill="#F4F1EB"
+        opacity="0.6">intended for analysis by AI agents.</text>
+
+  <!-- Rule -->
+  <line x1="88" y1="406" x2="270" y2="406" stroke="#F4F1EB" stroke-width="0.75" opacity="0.2"/>
+
+  <!-- Attribution -->
+  <text x="88" y="440"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="13"
+        fill="#F4F1EB"
+        opacity="0.45">A Radiant Earth initiative</text>
+
+  <!-- Domain -->
+  <text x="88" y="463"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="13"
+        fill="#0E6E6B">baidarka.ai</text>
+</svg>
