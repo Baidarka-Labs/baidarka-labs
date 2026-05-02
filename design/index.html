@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Baidarka Labs — Open Fleet Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=GT+Sectra+Display:wght@400;500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0E1733;
+      --teal: #0E6E6B;
+      --teal-deep: #094947;
+      --paper: #F4F1EB;
+      --paper-warm: #EDE7D9;
+      --line: #D9D3C8;
+      --signal: #F4C430;
+      --mute: #6B6B6B;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", "Helvetica Neue", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 80px 64px; }
+    .grid { display: grid; gap: 24px; }
+
+    /* Type ----------------------------------------------------------------- */
+    .display {
+      font-family: "Source Serif 4", "GT Sectra Display", Georgia, serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    h1 { font-size: 84px; line-height: 0.96; margin: 0; }
+    h2 { font-size: 48px; line-height: 1.05; margin: 0; letter-spacing: -0.015em; }
+    h3 { font-size: 22px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; font-weight: 600; }
+    p { font-size: 17px; line-height: 1.55; max-width: 64ch; margin: 0; }
+
+    /* Header --------------------------------------------------------------- */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(244, 241, 235, 0.85);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto; padding: 18px 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    }
+    .nav .brand { display: flex; align-items: center; gap: 14px; }
+    .nav .brand .name { font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: var(--ink); text-decoration: none; font-size: 13px; }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* Hero ----------------------------------------------------------------- */
+    .hero {
+      padding: 140px 64px 120px;
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center;
+    }
+    .hero .small { margin-bottom: 24px; }
+    .hero h1 { margin-bottom: 28px; }
+    .hero .lede { font-size: 20px; max-width: 52ch; }
+    .hero-mark { display: flex; justify-content: center; align-items: center; padding: 32px; }
+
+    /* Section --------------------------------------------------------------- */
+    section.sys {
+      border-top: 1px solid var(--line);
+      padding: 96px 64px;
+      max-width: 1280px; margin: 0 auto;
+    }
+    .sys-header { display: grid; grid-template-columns: 200px 1fr; gap: 48px; margin-bottom: 56px; }
+    .sys-header .lede { font-size: 18px; max-width: 56ch; }
+
+    /* Card ----------------------------------------------------------------- */
+    .card {
+      background: white; border: 1px solid var(--line);
+      padding: 32px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .card .stage {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 240px;
+      background: var(--paper-warm);
+      border-radius: 0;
+      padding: 24px;
+    }
+    .card.dark .stage { background: var(--ink); }
+    .card.teal .stage { background: var(--teal); }
+    .card.signal .stage { background: var(--signal); }
+    .card .meta { padding-top: 12px; border-top: 1px solid var(--line); }
+    .card .nm { font-weight: 600; font-size: 14px; }
+    .card .ds { color: var(--mute); font-size: 13px; line-height: 1.4; max-width: 36ch; }
+
+    /* Wordmark display ----------------------------------------------------- */
+    .wm-row {
+      display: flex; align-items: baseline; gap: 18px;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+    .wm-name { font-size: 44px; line-height: 1; color: var(--ink); }
+    .wm-name .ls { font-style: italic; opacity: 0.6; }
+    .wm-divider {
+      display: inline-flex; align-items: center;
+      width: 1px; height: 32px; background: var(--ink); opacity: 0.3;
+    }
+    .wm-meta { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
+
+    /* Color tokens --------------------------------------------------------- */
+    .colors-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    .swatch {
+      aspect-ratio: 4 / 5;
+      padding: 20px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      border: 1px solid transparent;
+    }
+    .swatch.bordered { border-color: var(--line); }
+    .swatch .lbl { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .swatch .hex { font-family: "JetBrains Mono", monospace; font-size: 12px; }
+    .swatch .nm { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; letter-spacing: -0.01em; }
+
+    /* Type specimens ------------------------------------------------------- */
+    .type-spec {
+      display: grid; grid-template-columns: 200px 1fr; gap: 48px;
+      padding: 32px 0; border-bottom: 1px solid var(--line);
+    }
+    .type-spec:last-child { border-bottom: none; }
+    .type-spec .label { padding-top: 8px; }
+    .type-display-1 { font-family: "Source Serif 4", Georgia, serif; font-size: 72px; line-height: 1; letter-spacing: -0.02em; }
+    .type-display-2 { font-family: "Source Serif 4", Georgia, serif; font-size: 48px; line-height: 1.1; letter-spacing: -0.015em; }
+    .type-headline { font-family: "Inter", sans-serif; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; font-weight: 600; }
+    .type-body { font-family: "Inter", sans-serif; font-size: 17px; line-height: 1.55; }
+    .type-mono { font-family: "JetBrains Mono", monospace; font-size: 14px; line-height: 1.5; letter-spacing: 0.02em; }
+    .type-eyebrow { font-family: "JetBrains Mono", monospace; font-size: 11px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Application mocks ---------------------------------------------------- */
+    .mock-grid { display: grid; gap: 24px; }
+    .mock-grid.two { grid-template-columns: 1fr 1fr; }
+    .mock-grid.three { grid-template-columns: repeat(3, 1fr); }
+
+    .mock-card {
+      background: white; border: 1px solid var(--line);
+      aspect-ratio: 16 / 10;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .mock-card.tall { aspect-ratio: 3 / 4; }
+    .mock-card.square { aspect-ratio: 1 / 1; }
+    .mock-card.banner { aspect-ratio: 21 / 9; }
+    .mock-card .body { padding: 32px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .mock-card.dark { background: var(--ink); color: white; }
+    .mock-card.teal { background: var(--teal); color: var(--paper); }
+    .mock-card.paper-warm { background: var(--paper-warm); }
+
+    /* Sub-brand lockup */
+    .sublock { display: flex; align-items: center; gap: 14px; }
+    .sublock .lock-text { display: flex; flex-direction: column; line-height: 1; }
+    .sublock .lock-name { font-family: "Source Serif 4", Georgia, serif; font-size: 19px; }
+    .sublock .lock-discipline { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); margin-top: 4px; }
+    .sublock.dark .lock-discipline { color: rgba(255,255,255,0.55); }
+    .sublock.dark .lock-name { color: white; }
+
+    /* Report cover mock */
+    .cover {
+      padding: 40px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      height: 100%;
+    }
+    .cover .top, .cover .bottom { display: flex; flex-direction: column; gap: 4px; }
+    .cover h2 { font-family: "Source Serif 4", Georgia, serif; font-size: 38px; line-height: 1.05; letter-spacing: -0.015em; font-weight: 400; }
+
+    /* Web app mock */
+    .web-mock { display: flex; flex-direction: column; height: 100%; }
+    .web-mock .web-nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid var(--line); }
+    .web-mock .web-body { flex: 1; padding: 36px 32px; display: flex; flex-direction: column; gap: 20px; }
+    .web-mock .web-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border: 1px solid var(--line); border-radius: 20px;
+      font-size: 12px; color: var(--mute); width: fit-content;
+    }
+    .web-mock .web-headline { font-family: "Source Serif 4", Georgia, serif; font-size: 40px; letter-spacing: -0.015em; line-height: 1.05; }
+    .web-mock .web-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--ink); color: white; padding: 12px 18px;
+      font-size: 13px; font-weight: 500; width: fit-content;
+    }
+    .web-mock .web-cta.teal { background: var(--teal); }
+
+    /* Avatar / favicon mock */
+    .avatar {
+      aspect-ratio: 1; padding: 14%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--paper-warm); border: 1px solid var(--line);
+    }
+    .avatar.dark { background: var(--ink); border-color: var(--ink); }
+    .avatar.teal { background: var(--teal); border-color: var(--teal); }
+    .avatar.signal { background: var(--signal); border-color: var(--signal); }
+
+    /* Pattern strip */
+    .pattern-strip {
+      height: 200px; background: var(--paper-warm);
+      position: relative; overflow: hidden;
+    }
+
+    /* Business card mock */
+    .bcard {
+      aspect-ratio: 1.75 / 1;
+      padding: 28px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      border: 1px solid var(--line);
+    }
+
+    .bcard .nm-row { display: flex; align-items: center; justify-content: space-between; }
+    .bcard .person { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; line-height: 1; }
+    .bcard .role { font-size: 12px; color: var(--mute); }
+    .bcard.dark { background: var(--ink); color: white; border-color: var(--ink); }
+    .bcard.dark .role { color: rgba(255,255,255,0.6); }
+
+    /* Footer */
+    footer { padding: 48px 64px; max-width: 1280px; margin: 0 auto; border-top: 1px solid var(--line); color: var(--mute); font-size: 13px; }
+    footer a { color: var(--teal); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV ----------------------------------------------------- -->
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span id="nav-mark"></span>
+        <span class="name">Baidarka Labs</span>
+        <span class="mono" style="margin-left: 12px;">DESIGN SYSTEM · v0.1</span>
+      </div>
+      <div class="nav-links">
+        <a href="#mark">Mark</a>
+        <a href="#wordmark">Wordmark</a>
+        <a href="#color">Color</a>
+        <a href="#type">Type</a>
+        <a href="#patterns">Patterns</a>
+        <a href="#apps">Applications</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO ----------------------------------------------------- -->
+  <header class="hero">
+    <div>
+      <div class="mono small">OPEN FLEET · CONCEPT 5 / K5.5</div>
+      <h1 class="display">A fleet,<br/>finding its line.</h1>
+      <p class="lede" style="margin-top: 28px;">
+        The Open Fleet mark is frameless. Three baidarka hulls, parallel, ascending the slope at 23°. The composition holds without a container — the hulls themselves carry the structure. It scales from a 16-pixel favicon to the side of a building, and it works across paper, ink, teal, and signal yellow.
+      </p>
+      <p class="mono" style="margin-top: 32px;">
+        v-formation, staggered, and 5-domain variants follow. Each is a different reading of the same gesture: coordination across disciplines on a shared gradient.
+      </p>
+    </div>
+    <div class="hero-mark" id="hero-mark"></div>
+  </header>
+
+  <!-- 01 MARK -------------------------------------------------- -->
+  <section class="sys" id="mark">
+    <div class="sys-header">
+      <div>
+        <div class="mono">01 / MARK</div>
+        <h2 class="display" style="margin-top: 8px;">The hull family.</h2>
+      </div>
+      <p class="lede">
+        Every mark in the system is a composition of one shape — a pointed-oval baidarka hull, tilted 23°. Hulls are positioned along the slope axis. Frameless: no circles, no squares, no containers. The negative space between hulls does as much work as the hulls themselves.
+      </p>
+    </div>
+
+    <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card">
+        <div class="stage" id="m-of-primary"></div>
+        <div class="meta">
+          <div class="nm">Primary · Open Fleet 3</div>
+          <div class="ds">The default mark. Three equal hulls ascending the slope. Used wherever the brand needs a single recognizable mark.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-of-v"></div>
+        <div class="meta">
+          <div class="nm">V-Formation · Lead</div>
+          <div class="ds">A long lead hull with two flankers pulled back. Reads as coordinated effort — used for the lab's research-program collateral.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-of-v2"></div>
+        <div class="meta">
+          <div class="nm">V-Formation · Scout</div>
+          <div class="ds">Lead hull pushed up the slope; two follow. The "scouting" reading — used for new-research and exploratory communications.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-of-s"></div>
+        <div class="meta">
+          <div class="nm">Staggered · Echelon</div>
+          <div class="ds">Three hulls in a step-pattern. Each on its own line up the gradient. Used as a horizontal banner mark.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-of-s2"></div>
+        <div class="meta">
+          <div class="nm">Staggered · Abreast</div>
+          <div class="ds">A long center hull flanked by two shorter ones, all on parallel lines. The "fleet abreast" reading — wide and exploratory.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-of-5"></div>
+        <div class="meta">
+          <div class="nm">Open Fleet 5 · Domains</div>
+          <div class="ds">Five hulls — one per FRO research domain (geospatial, genomics, climate, financial, civic). Used on annual reports, anniversary marks, and ceremonial collateral.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-single"></div>
+        <div class="meta">
+          <div class="nm">Solo Glyph</div>
+          <div class="ds">A single hull. Used as a list bullet, section divider, or favicon-of-last-resort when the fleet is unreadable at small sizes.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stage" id="m-tick"></div>
+        <div class="meta">
+          <div class="nm">Tick</div>
+          <div class="ds">The hull reduced to a slim slash. Used as an inline glyph, a footnote marker, or to set rhythm in long-form text.</div>
+        </div>
+      </div>
+      <div class="card dark">
+        <div class="stage" id="m-of-inv"></div>
+        <div class="meta">
+          <div class="nm" style="color: white;">Inversion test</div>
+          <div class="ds" style="color: rgba(255,255,255,0.65);">The mark holds in paper-on-ink. Both stays of the wordmark must be tested — bright ink in dim rooms, dim ink in bright rooms.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 WORDMARK ---------------------------------------------- -->
+  <section class="sys" id="wordmark">
+    <div class="sys-header">
+      <div>
+        <div class="mono">02 / WORDMARK</div>
+        <h2 class="display" style="margin-top: 8px;">A literary serif.</h2>
+      </div>
+      <p class="lede">
+        The wordmark is set in <strong>Source Serif 4</strong> — a quiet, transitional serif designed for long reading. It's a deliberate counter to the mark's geometry: where the hulls are sharp and structural, the type is humane and literary. The pairing reads "research institution," not "tech startup."
+      </p>
+    </div>
+
+    <div class="card" style="padding: 56px;">
+      <div class="mono">PRIMARY HORIZONTAL LOCKUP</div>
+      <div class="wm-row" style="margin-top: 32px;">
+        <span id="wm-mark-h1"></span>
+        <span class="wm-name">Baidarka Labs</span>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 24px;">
+      <div class="card" style="padding: 56px;">
+        <div class="mono">SUB-BRAND · DOMAIN</div>
+        <div class="wm-row" style="margin-top: 32px; align-items: center;">
+          <span id="wm-mark-sub-1"></span>
+          <span class="wm-name">Baidarka <span style="color: var(--teal);">/ Geospatial</span></span>
+        </div>
+        <div class="wm-row" style="margin-top: 16px; align-items: center;">
+          <span id="wm-mark-sub-2"></span>
+          <span class="wm-name">Baidarka <span style="color: var(--teal);">/ Genomics</span></span>
+        </div>
+        <div class="wm-row" style="margin-top: 16px; align-items: center;">
+          <span id="wm-mark-sub-3"></span>
+          <span class="wm-name">Baidarka <span style="color: var(--teal);">/ Climate</span></span>
+        </div>
+      </div>
+
+      <div class="card dark" style="padding: 56px; background: var(--ink); color: white;">
+        <div class="mono" style="color: rgba(255,255,255,0.55);">DARK LOCKUP · OPEN FLEET 3</div>
+        <div class="wm-row" style="margin-top: 32px;">
+          <span id="wm-mark-dark"></span>
+          <span class="wm-name" style="color: white;">Baidarka Labs</span>
+        </div>
+        <div class="wm-row" style="margin-top: 24px;">
+          <span id="wm-mark-dark-yel"></span>
+          <span class="wm-name" style="color: var(--signal);">Baidarka Labs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 24px; padding: 56px; align-items: center;">
+      <div class="mono" style="align-self: flex-start;">STACKED LOCKUP</div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 32px 0;">
+        <span id="wm-mark-stacked"></span>
+        <div class="wm-name" style="font-size: 36px;">Baidarka Labs</div>
+        <div class="mono">A FOCUSED RESEARCH ORGANIZATION · 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 COLOR ------------------------------------------------- -->
+  <section class="sys" id="color">
+    <div class="sys-header">
+      <div>
+        <div class="mono">03 / COLOR</div>
+        <h2 class="display" style="margin-top: 8px;">Ink, teal, signal.</h2>
+      </div>
+      <p class="lede">
+        Two anchors and one accent. Ink is the default; teal is the brand color; signal yellow appears sparingly — for callouts, certification seals, and warning states. Paper and warm-paper are the default backgrounds. Together they form a maritime palette without leaning nautical-cliché.
+      </p>
+    </div>
+
+    <div class="colors-grid">
+      <div class="swatch" style="background: var(--ink); color: var(--paper);">
+        <div>
+          <div class="lbl">PRIMARY</div>
+          <div class="nm" style="margin-top: 6px;">Ink</div>
+        </div>
+        <div class="hex">#0E1733</div>
+      </div>
+      <div class="swatch" style="background: var(--teal); color: var(--paper);">
+        <div>
+          <div class="lbl">PRIMARY</div>
+          <div class="nm" style="margin-top: 6px;">Teal</div>
+        </div>
+        <div class="hex">#0E6E6B</div>
+      </div>
+      <div class="swatch" style="background: var(--signal); color: var(--ink);">
+        <div>
+          <div class="lbl">ACCENT</div>
+          <div class="nm" style="margin-top: 6px;">Signal Yellow</div>
+        </div>
+        <div class="hex">#F4C430</div>
+      </div>
+      <div class="swatch bordered" style="background: var(--paper); color: var(--ink);">
+        <div>
+          <div class="lbl">SURFACE</div>
+          <div class="nm" style="margin-top: 6px;">Paper</div>
+        </div>
+        <div class="hex">#F4F1EB</div>
+      </div>
+      <div class="swatch bordered" style="background: var(--paper-warm); color: var(--ink);">
+        <div>
+          <div class="lbl">SURFACE</div>
+          <div class="nm" style="margin-top: 6px;">Paper Warm</div>
+        </div>
+        <div class="hex">#EDE7D9</div>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 32px;">
+      <div class="card">
+        <div class="mono">USAGE — PROOF</div>
+        <div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
+          <div class="avatar"><span id="ucol-1"></span></div>
+          <div class="avatar dark"><span id="ucol-2"></span></div>
+          <div class="avatar teal"><span id="ucol-3"></span></div>
+          <div class="avatar signal"><span id="ucol-4"></span></div>
+        </div>
+        <div class="ds" style="margin-top: 12px; color: var(--mute);">Open Fleet 3 across the four primary surfaces. The teal ground is the brand tile; signal yellow is reserved for moments that demand attention.</div>
+      </div>
+      <div class="card">
+        <div class="mono">RATIO — PRIMARY DECK</div>
+        <div style="display: grid; grid-template-columns: 12fr 4fr 4fr 1fr; gap: 4px; margin-top: 16px; height: 80px;">
+          <div style="background: var(--paper-warm);"></div>
+          <div style="background: var(--ink);"></div>
+          <div style="background: var(--teal);"></div>
+          <div style="background: var(--signal);"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: 12fr 4fr 4fr 1fr; gap: 4px; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mute);">
+          <div>57% PAPER</div><div>19% INK</div><div>19% TEAL</div><div>5% YEL</div>
+        </div>
+        <div class="ds" style="margin-top: 24px; color: var(--mute);">Roughly: most surfaces are paper. Ink and teal split the rest evenly. Signal yellow is held below five percent of any composition.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 TYPE -------------------------------------------------- -->
+  <section class="sys" id="type">
+    <div class="sys-header">
+      <div>
+        <div class="mono">04 / TYPE</div>
+        <h2 class="display" style="margin-top: 8px;">Three voices.</h2>
+      </div>
+      <p class="lede">
+        Source Serif 4 for display and reading. Inter for UI and dense interface. JetBrains Mono for technical contexts — eyebrows, code, captions, certification text. Three faces, no more. The mono is the family's measurement instrument: it appears wherever a number, a tag, or a coordinate appears.
+      </p>
+    </div>
+
+    <div class="card" style="padding: 56px 56px 24px;">
+      <div class="type-spec">
+        <div class="label">
+          <div class="mono">DISPLAY · SOURCE SERIF 4</div>
+          <div class="ds" style="margin-top: 8px; color: var(--mute);">Headlines, report titles, and pull quotes.</div>
+        </div>
+        <div class="type-display-1">An open benchmark<br/>for agent-ready data.</div>
+      </div>
+
+      <div class="type-spec">
+        <div class="label">
+          <div class="mono">SUBHEAD · SOURCE SERIF 4</div>
+          <div class="ds" style="margin-top: 8px; color: var(--mute);">Section titles and feature subheads.</div>
+        </div>
+        <div class="type-display-2">A fitness landscape with seven dimensions, none of them sufficient on its own.</div>
+      </div>
+
+      <div class="type-spec">
+        <div class="label">
+          <div class="mono">HEADLINE · INTER 600</div>
+          <div class="ds" style="margin-top: 8px; color: var(--mute);">UI navigation and dashboard titles.</div>
+        </div>
+        <div class="type-headline">Data Fitness Index — 2026 cohort scoring</div>
+      </div>
+
+      <div class="type-spec">
+        <div class="label">
+          <div class="mono">BODY · INTER 400 / 17PX / 1.55</div>
+          <div class="ds" style="margin-top: 8px; color: var(--mute);">Long-form web and report text.</div>
+        </div>
+        <div class="type-body" style="max-width: 64ch;">
+          The baidarka is a paradigm of fitness-for-purpose engineering — a design refined by Aleut and Alutiiq practitioners across generations of practical use, balancing speed, stability, and resistance through iteration rather than theory.
+        </div>
+      </div>
+
+      <div class="type-spec">
+        <div class="label">
+          <div class="mono">MONO · JETBRAINS MONO 11/14PX</div>
+          <div class="ds" style="margin-top: 8px; color: var(--mute);">Eyebrows, code, captions, coordinates.</div>
+        </div>
+        <div>
+          <div class="type-eyebrow" style="color: var(--teal);">FITNESS INDEX · 2026 · GEOSPATIAL</div>
+          <div class="type-mono" style="margin-top: 16px;">{ format: "cog", schema: "stac-1.0", score: 0.84 }</div>
+          <div class="type-mono" style="color: var(--mute); margin-top: 8px;">// 2,180 datasets evaluated · 12.4 M tokens</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 PATTERNS ---------------------------------------------- -->
+  <section class="sys" id="patterns">
+    <div class="sys-header">
+      <div>
+        <div class="mono">05 / PATTERNS</div>
+        <h2 class="display" style="margin-top: 8px;">The fleet, multiplied.</h2>
+      </div>
+      <p class="lede">
+        Tile the hull at three densities to produce three textures: "wake" (dense), "fleet" (medium), "open water" (sparse). Use them on report endpapers, web hero backgrounds, and large-format signage. Always paper-warm ground; never as a foreground texture over the wordmark.
+      </p>
+    </div>
+
+    <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="padding: 0;">
+        <div class="pattern-strip" id="pat-1" style="height: 240px;"></div>
+        <div style="padding: 24px;">
+          <div class="nm">Wake · dense</div>
+          <div class="ds">For end-papers and section dividers in print. The hulls overlap into a strong directional texture.</div>
+        </div>
+      </div>
+      <div class="card" style="padding: 0;">
+        <div class="pattern-strip" id="pat-2" style="height: 240px;"></div>
+        <div style="padding: 24px;">
+          <div class="nm">Fleet · medium</div>
+          <div class="ds">The default texture. Use it on web hero backgrounds and the inside cover of reports.</div>
+        </div>
+      </div>
+      <div class="card" style="padding: 0;">
+        <div class="pattern-strip" id="pat-3" style="height: 240px;"></div>
+        <div style="padding: 24px;">
+          <div class="nm">Open water · sparse</div>
+          <div class="ds">For body-of-text backgrounds and certification seals where most of the surface should breathe.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 APPLICATIONS ------------------------------------------ -->
+  <section class="sys" id="apps">
+    <div class="sys-header">
+      <div>
+        <div class="mono">06 / APPLICATIONS</div>
+        <h2 class="display" style="margin-top: 8px;">In the world.</h2>
+      </div>
+      <p class="lede">
+        Eight surfaces. The mark, wordmark, color, and type, in their working clothes. Each application uses a different combination of system parts; together they prove the system's range without needing to invent new pieces.
+      </p>
+    </div>
+
+    <!-- Application: Web home -->
+    <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 24px;">
+      <div class="mock-card" style="aspect-ratio: 16/10;">
+        <div class="web-mock">
+          <div class="web-nav">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span id="app-web-nav-mark"></span>
+              <span style="font-family: 'Source Serif 4', serif; font-size: 18px;">Baidarka Labs</span>
+            </div>
+            <div style="display: flex; gap: 24px; font-size: 13px; color: var(--mute);">
+              <span>Research</span><span>Index</span><span>Methods</span><span>About</span>
+            </div>
+          </div>
+          <div class="web-body">
+            <div class="web-pill"><span style="width: 6px; height: 6px; background: var(--teal); border-radius: 50%;"></span>2026 Cohort · Now scoring</div>
+            <div class="web-headline">Measuring the fitness of data products for autonomous analysis.</div>
+            <div style="font-family: 'Inter', sans-serif; color: var(--mute); max-width: 56ch; font-size: 15px;">A five-year focused research organization establishing the neutral arbiter for agent-ready data. An open benchmark, an annual fitness index, and a certification program.</div>
+            <div class="web-cta teal">Read the methodology <span>→</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="mock-card paper-warm">
+        <div class="cover" style="height: 100%; padding: 32px;">
+          <div class="top">
+            <span id="app-cover-mark"></span>
+            <div class="mono" style="margin-top: 24px;">FITNESS REPORT · 2026 / Q4</div>
+            <h2 style="font-size: 30px; margin-top: 18px;">The 200 Most-Used Public Datasets, Scored.</h2>
+          </div>
+          <div class="bottom">
+            <div class="mono">BAIDARKA LABS · GEOSPATIAL</div>
+            <div style="font-size: 12px; color: var(--mute); margin-top: 4px;">Independently maintained. No funder review.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application: Business card + Avatars -->
+    <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 24px;">
+      <div class="bcard">
+        <div class="nm-row">
+          <span id="app-bcard-mark"></span>
+          <span class="mono">001/015</span>
+        </div>
+        <div>
+          <div class="person">Jed Sundwall</div>
+          <div class="role" style="margin-top: 4px;">Executive Director · Radiant Earth</div>
+          <div class="role">jed@radiant.earth · @baidarkalabs</div>
+        </div>
+      </div>
+      <div class="bcard dark">
+        <div class="nm-row">
+          <span id="app-bcard-mark-dark"></span>
+          <span class="mono" style="color: rgba(255,255,255,0.55);">BAIDARKA · GENOMICS</span>
+        </div>
+        <div>
+          <div class="person" style="color: white;">— · Methodology Lead</div>
+          <div class="role" style="margin-top: 4px;">Open hire · 2026</div>
+          <div class="role">baidarka.org/jobs</div>
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="avatar dark"><span id="av-1"></span></div>
+        <div class="avatar"><span id="av-2"></span></div>
+        <div class="avatar teal"><span id="av-3"></span></div>
+        <div class="avatar signal"><span id="av-4"></span></div>
+      </div>
+    </div>
+
+    <!-- Application: Certification seal + paper banner -->
+    <div class="grid" style="grid-template-columns: 1fr 2fr; gap: 24px; margin-top: 24px;">
+      <div class="mock-card square paper-warm" style="aspect-ratio: 1;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 36px; height: 100%; gap: 16px; text-align: center;">
+          <span id="app-seal-mark"></span>
+          <div class="mono" style="color: var(--teal);">FITNESS CERTIFIED</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 20px; line-height: 1.2;">This dataset has met the<br/>Baidarka Labs benchmark.</div>
+          <div class="mono" style="margin-top: 8px; color: var(--mute);">REGISTRATION 2026·BL·00184</div>
+        </div>
+      </div>
+      <div class="mock-card banner" style="aspect-ratio: 21/9; background: var(--ink); color: white;">
+        <div style="padding: 56px; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <span id="app-banner-mark"></span>
+            <span style="font-family: 'Source Serif 4', serif; font-size: 22px;">Baidarka Labs</span>
+          </div>
+          <div>
+            <div class="mono" style="color: var(--signal);">CALL FOR DATASETS · 2026 COHORT</div>
+            <div style="font-family: 'Source Serif 4', serif; font-size: 44px; margin-top: 16px; max-width: 28ch; line-height: 1.05;">Submit your data for inclusion in this year's Fitness Index.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application: Index card grid (the data product index visualization) -->
+    <div class="card" style="margin-top: 24px; padding: 0;">
+      <div style="padding: 36px; border-bottom: 1px solid var(--line);">
+        <div class="mono" style="color: var(--teal);">DATA FITNESS INDEX · 2026 · PREVIEW</div>
+        <div style="font-family: 'Source Serif 4', serif; font-size: 28px; margin-top: 8px;">Top performers, by domain.</div>
+      </div>
+      <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 0;">
+        <div style="padding: 28px; border-right: 1px solid var(--line);">
+          <div class="mono" style="color: var(--mute);">GEOSPATIAL</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 22px; margin-top: 12px;">Sentinel-2 L2A</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 18px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px; color: var(--ink);">0.91</div>
+            <div class="mono" style="color: var(--teal);">↑ 0.04</div>
+          </div>
+          <div style="height: 4px; background: var(--paper-warm); margin-top: 16px;">
+            <div style="height: 100%; width: 91%; background: var(--teal);"></div>
+          </div>
+        </div>
+        <div style="padding: 28px; border-right: 1px solid var(--line);">
+          <div class="mono" style="color: var(--mute);">GENOMICS</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 22px; margin-top: 12px;">UK Biobank</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 18px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px;">0.78</div>
+            <div class="mono" style="color: var(--teal);">↑ 0.11</div>
+          </div>
+          <div style="height: 4px; background: var(--paper-warm); margin-top: 16px;">
+            <div style="height: 100%; width: 78%; background: var(--teal);"></div>
+          </div>
+        </div>
+        <div style="padding: 28px; border-right: 1px solid var(--line);">
+          <div class="mono" style="color: var(--mute);">CLIMATE</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 22px; margin-top: 12px;">ERA5</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 18px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px;">0.74</div>
+            <div class="mono" style="color: var(--mute);">↑ 0.02</div>
+          </div>
+          <div style="height: 4px; background: var(--paper-warm); margin-top: 16px;">
+            <div style="height: 100%; width: 74%; background: var(--teal);"></div>
+          </div>
+        </div>
+        <div style="padding: 28px; border-right: 1px solid var(--line);">
+          <div class="mono" style="color: var(--mute);">FINANCIAL</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 22px; margin-top: 12px;">SEC EDGAR</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 18px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px;">0.62</div>
+            <div class="mono" style="color: #B8401F;">↓ 0.03</div>
+          </div>
+          <div style="height: 4px; background: var(--paper-warm); margin-top: 16px;">
+            <div style="height: 100%; width: 62%; background: var(--teal);"></div>
+          </div>
+        </div>
+        <div style="padding: 28px;">
+          <div class="mono" style="color: var(--mute);">CIVIC</div>
+          <div style="font-family: 'Source Serif 4', serif; font-size: 22px; margin-top: 12px;">USA Facts</div>
+          <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 18px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 36px;">0.69</div>
+            <div class="mono" style="color: var(--teal);">↑ 0.07</div>
+          </div>
+          <div style="height: 4px; background: var(--paper-warm); margin-top: 16px;">
+            <div style="height: 100%; width: 69%; background: var(--teal);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pull quote -->
+    <div style="margin-top: 96px; padding: 64px 0; border-top: 1px solid var(--line);">
+      <div class="mono">FROM THE CONCEPT NOTE · DYSON, 2020</div>
+      <blockquote style="font-family: 'Source Serif 4', serif; font-size: 32px; line-height: 1.3; max-width: 32ch; margin: 24px 0 0; padding: 0; font-weight: 400; letter-spacing: -0.01em;">
+        The Aleut kayak occupied a summit on a complex fitness landscape that cannot be reached by climbing one of the gradients at a time.
+      </blockquote>
+    </div>
+  </section>
+
+  <footer>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div>Baidarka Labs · Open Fleet design system · v0.1 · April 2026</div>
+      <a href="/">← Home</a>
+    </div>
+  </footer>
+
+  <!-- React + marks ------------------------------------------- -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="brand/marks-openfleet.jsx"></script>
+
+  <script type="text/babel">
+    const { MarkOF, MarkOFv, MarkOFv2, MarkOFs, MarkOFs2, MarkOF5, MarkSingle, MarkTick, MarkPatternSwatch } = window;
+
+    const INK = "#0E1733";
+    const TEAL = "#0E6E6B";
+    const PAPER = "#F4F1EB";
+    const SIGNAL = "#F4C430";
+
+    function mount(id, el) {
+      const node = document.getElementById(id);
+      if (node) ReactDOM.createRoot(node).render(el);
+    }
+
+    // Nav
+    mount("nav-mark", <MarkOF color={INK} size={28} />);
+
+    // Hero
+    mount("hero-mark", <MarkOF color={INK} size={420} />);
+
+    // Mark family
+    mount("m-of-primary", <MarkOF color={INK} size={180} />);
+    mount("m-of-v",       <MarkOFv color={INK} size={180} />);
+    mount("m-of-v2",      <MarkOFv2 color={INK} size={180} />);
+    mount("m-of-s",       <MarkOFs color={INK} size={180} />);
+    mount("m-of-s2",      <MarkOFs2 color={INK} size={180} />);
+    mount("m-of-5",       <MarkOF5 color={INK} size={180} />);
+    mount("m-single",     <MarkSingle color={INK} size={180} />);
+    mount("m-tick",       <MarkTick color={INK} size={180} />);
+    mount("m-of-inv",     <MarkOF color={PAPER} size={180} />);
+
+    // Wordmarks
+    mount("wm-mark-h1", <MarkOF color={INK} size={64} />);
+    mount("wm-mark-sub-1", <MarkOFv color={TEAL} size={48} />);
+    mount("wm-mark-sub-2", <MarkOFv color={TEAL} size={48} />);
+    mount("wm-mark-sub-3", <MarkOFv color={TEAL} size={48} />);
+    mount("wm-mark-dark", <MarkOF color="white" size={64} />);
+    mount("wm-mark-dark-yel", <MarkOF color={SIGNAL} size={64} />);
+    mount("wm-mark-stacked", <MarkOF color={INK} size={120} />);
+
+    // Color usage
+    mount("ucol-1", <MarkOF color={INK} size={64} />);
+    mount("ucol-2", <MarkOF color={PAPER} size={64} />);
+    mount("ucol-3", <MarkOF color={PAPER} size={64} />);
+    mount("ucol-4", <MarkOF color={INK} size={64} />);
+
+    // Patterns
+    mount("pat-1", <MarkPatternSwatch color={INK} size={420} density={42} />);
+    mount("pat-2", <MarkPatternSwatch color={INK} size={420} density={70} />);
+    mount("pat-3", <MarkPatternSwatch color={INK} size={420} density={110} />);
+
+    // Apps
+    mount("app-web-nav-mark", <MarkOF color={INK} size={28} />);
+    mount("app-cover-mark",   <MarkOF color={INK} size={48} />);
+    mount("app-bcard-mark",   <MarkOF color={INK} size={32} />);
+    mount("app-bcard-mark-dark", <MarkOF color={SIGNAL} size={32} />);
+    mount("av-1", <MarkOF color={PAPER} size={64} />);
+    mount("av-2", <MarkOF color={INK} size={64} />);
+    mount("av-3", <MarkOF color={PAPER} size={64} />);
+    mount("av-4", <MarkOF color={INK} size={64} />);
+    mount("app-seal-mark", <MarkOF color={TEAL} size={80} />);
+    mount("app-banner-mark", <MarkOF color="white" size={36} />);
+  </script>
+</body>
+</html>

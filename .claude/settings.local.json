@@ -13,7 +13,15 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(gh repo *)"
+      "Bash(gh repo *)",
+      "Bash(git push *)",
+      "WebFetch(domain:cloudnativegeo.org)",
+      "Bash(vercel *)",
+      "Bash(npm show *)",
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(v.filter\\(x=>x.startsWith\\('15.'\\)\\).slice\\(-5\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(v.filter\\(x=>/^15\\\\.\\\\d+\\\\.\\\\d+$/.test\\(x\\)\\).slice\\(-6\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node *)",
+      "Bash(git rm *)"
     ]
   }
 }
